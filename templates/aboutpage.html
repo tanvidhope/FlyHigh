@@ -1,0 +1,457 @@
+<html>
+<head>
+	<title>FlyHigh</title>
+  <link rel="stylesheet" type="text/css" href="/templates/mystyle1.css">
+  <style>
+  #navbar {
+  overflow: hidden;
+  background-color: gray;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navbar a:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+#navbar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+font-family: Verdana, sans-serif;
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+
+/* Modal Content */
+.modal-content {
+  position: fixed;
+  bottom: 0;
+  background-color: #fefefe;
+  width: 100%;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  vertical-align: text-top;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+/* Add Animation */
+@-webkit-keyframes slideIn {
+  from {bottom: -300px; opacity: 0} 
+  to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+  from {bottom: -300px; opacity: 0}
+  to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+ul.b{
+  list-style-type:none;
+  text-align: center;
+  align-items: center;
+  background-color: black;
+}
+
+li b{
+  padding-right: 200px;
+}
+
+ul.c{
+  list-style-type:none;
+  background-color: #508991;
+  height: 25px;
+}
+
+
+</style>
+</head>
+<body>
+<div id="navbar">
+  <a href="{%url 'home' %}">Home</a>
+  <a  href="{%url 'educationHome' %}">Education</a>
+ <a href="{%url 'healthcareHome' %}">Healthcare</a>
+   <a href="{%url 'livelihoodHome' %}">Livelihood</a>
+   <a class="active" href="{%url 'about' %}">About</a>
+  <a style="float:right">FLY HIGH</a>
+  <a style="float:right"><img src="data:image/png;base64,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"style="display :block;padding :0px;margin :0px auto !important;width:30px;height :20px;"></a>
+</div>
+<br>
+dcyjfzdgzdhztgcfntdhcsfgfxczhg<br>
+efczddd<br>
+dcfccd<br>
+fvdcdffd<br>
+dzcfvfdvfrd<br>
+fdfgfgfgfdfgd<br>
+dcyjfzdgzdhztgcfntdhcsfgfxczhg<br>
+efczddd<br>
+dcfccd<br>
+fvdcdffd<br>
+dzcfvfdvfrd<br>
+fdfgfgfgfdfgd<br>
+dcyjfzdgzdhztgcfntdhcsfgfxczhg<br>
+efczddd<br>
+dcfccd<br>
+fvdcdffd<br>
+dzcfvfdvfrd<br>
+fdfgfgfgfdfgd<br>
+<ul class=b>
+  <li><b><button id="myBtn"><img src="/donate.png" height=100px width=100px/><h2 style="text-align: center;">Donate</h2></button></b></li>
+  <li><b><button id="myBtn1"><img  src="contact.png" height=100px width=100px/><h2 style="text-align: center;">Contact Us</h2></button></b></li>
+  <li><b><button id="myBtn2"><img src="job.png" height=100px width=100px/><h2 style="text-align: center;">Partner</h2></button></b></li>
+  <li><b><button id="myBtn3"><img src="location.png" height=100px width=100px/><h2 style="text-align: center;">Location</h2></button></b></li>
+</ul>
+<br><br><br><br><br><br><br><br><br>
+</ul>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+   <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Donate</h2>
+    </div>
+    <div class="modal-body">
+	<div id="paypal-button-container"></div>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+   <script>
+// Render the PayPal button
+paypal.Button.render({
+// Set your environment
+env: 'sandbox', // sandbox | production
+
+// Specify the style of the button
+style: {
+  layout: 'vertical',  // horizontal | vertical
+  size:   'medium',    // medium | large | responsive
+  shape:  'rect',      // pill | rect
+  color:  'gold'       // gold | blue | silver | white | black
+},
+
+// Specify allowed and disallowed funding sources
+//
+// Options:
+// - paypal.FUNDING.CARD
+// - paypal.FUNDING.CREDIT
+// - paypal.FUNDING.ELV
+funding: {
+  allowed: [
+    paypal.FUNDING.CARD,
+    paypal.FUNDING.CREDIT
+  ],
+  disallowed: []
+},
+
+// Enable Pay Now checkout flow (optional)
+commit: true,
+
+// PayPal Client IDs - replace with your own
+// Create a PayPal app: https://developer.paypal.com/developer/applications/create
+client: {
+  sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+  production: '<insert production client id>'
+},
+
+payment: function (data, actions) {
+  return actions.payment.create({
+    payment: {
+      transactions: [
+        {
+          amount: {
+            total: '0.01',
+            currency: 'USD'
+          }
+        }
+      ]
+    }
+  });
+},
+
+onAuthorize: function (data, actions) {
+  return actions.payment.execute()
+    .then(function () {
+      window.alert('Payment Complete!');
+    });
+}
+}, '#paypal-button-container');
+</script>
+
+    </div>
+    <div class="modal-footer">
+      <h3>Thank you for donating</h3>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+<div id="myModal1" class="modal">
+
+   <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close1">&times;</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="modal-body">
+  gdcsd:6532523865
+    </div>
+    <div class="modal-footer">
+      <h3>Thank you for donating</h3>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Get the modal
+var modal1 = document.getElementById('myModal1');
+
+// Get the button that opens the modal
+var btn1 = document.getElementById("myBtn1");
+
+// Get the <span> element that closes the modal
+var span1 = document.getElementsByClassName("close1")[0];
+
+// When the user clicks the button, open the modal 
+btn1.onclick = function() {
+  modal1.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span1.onclick = function() {
+  modal1.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal1) {
+    modal1.style.display = "none";
+  }
+}
+</script>
+
+
+    </div>
+
+<div id="myModal2" class="modal">
+
+   <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close2">&times;</span>
+      <h2>Partner</h2>
+    </div>
+    <div class="modal-body">
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+  gdcsd:6532523865<br>
+    </div>
+    <div class="modal-footer">
+      <h3>Thank you for becoming a partner</h3>
+    </div>
+
+<script>
+// Get the modal
+var modal2= document.getElementById('myModal2');
+
+// Get the button that opens the modal
+var btn2 = document.getElementById("myBtn2");
+
+// Get the <span> element that closes the modal
+var span2 = document.getElementsByClassName("close2")[0];
+
+// When the user clicks the button, open the modal 
+btn2.onclick = function() {
+  modal2.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span2.onclick = function() {
+  modal2.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal2) {
+    modal2.style.display = "none";
+  }
+}
+</script>
+
+
+    
+   
+  </div>
+
+</div>
+<div id="myModal3" class="modal">
+
+   <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close3">&times;</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="modal-body">
+  gdcsd:6532523865
+    </div>
+    <div class="modal-footer">
+      <h3>Thank you for donating</h3>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Get the modal
+var modal3 = document.getElementById('myModal3');
+
+// Get the button that opens the modal
+var btn3 = document.getElementById("myBtn3");
+
+// Get the <span> element that closes the modal
+var span3 = document.getElementsByClassName("close3")[0];
+
+// When the user clicks the button, open the modal 
+btn3.onclick = function() {
+  modal3.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span3.onclick = function() {
+  modal3.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal3) {
+    modal3.style.display = "none";
+  }
+}
+</script>
+
+
+    
+    
+
+
+</body>
+</html>
